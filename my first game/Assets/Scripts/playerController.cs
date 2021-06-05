@@ -24,19 +24,19 @@ public class playerController : MonoBehaviour
     public bool isGround, isJump;
     bool jumpPressed,crouchPressed;
     int jumpCount = 2;
-
     public GameObject[] weapons;
-
     private int weaponNum;
+    public int health = 3;
+    private int hitNum = 0;
+    public GameObject healthSystem;
 
     // public Joystick joystick;//手机端
-
-
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        healthSystem.GetComponent<HealthSystem>().setHealth(health);
+        healthSystem.GetComponent<HealthSystem>().UpdateHealthBar();
     }
 
     void Update() {
@@ -168,21 +168,33 @@ public class playerController : MonoBehaviour
                 // Enemy_frog frog = other.gameObject.GetComponent<Enemy_frog>(); 
 
                 if(animator.GetBool("falling") && transform.position.y > other.transform.position.y){
-                    // frog.jumpOn();
+                    // frog.death();
 
                     Enemy enemy = other.gameObject.GetComponent<Enemy>();
-                    enemy.jumpOn();
+                    enemy.death();
                     
                     rb.velocity = new Vector2(rb.velocity.x, jumpForce);
                     jumpCount = 2;
                     animator.SetBool("jumping",true);
                 } else if(transform.position.x < other.gameObject.transform.position.x){
+                    hitNum++;
+                    healthSystem.GetComponent<HealthSystem>().TakeDamage(1f);
+                    if(hitNum >= health){
+                        GetComponent<AudioSource>().enabled = false;
+                        Invoke("restart",0.2f);
+                    }
                     //在敌人左侧
                     rb.velocity = new Vector2(-3,rb.velocity.y);
                     soundManager.instance.hurtAudioPlay();
                     hurt = true;
                     Invoke("recoverHurt",1f);
                 } else if(transform.position.x > other.gameObject.transform.position.x){
+                    hitNum++;
+                    healthSystem.GetComponent<HealthSystem>().TakeDamage(1f);
+                    if(hitNum >= health){
+                        GetComponent<AudioSource>().enabled = false;
+                        Invoke("restart",0.2f);
+                    }
                     //在敌人左侧
                     rb.velocity = new Vector2(3,rb.velocity.y);
                     soundManager.instance.hurtAudioPlay();
@@ -194,6 +206,7 @@ public class playerController : MonoBehaviour
 
     void restart(){
         //重新激活当前场景
+        ObjectPool.Instance = null;//重置对象池
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 

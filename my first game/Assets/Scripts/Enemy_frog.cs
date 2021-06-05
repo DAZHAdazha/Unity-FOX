@@ -14,7 +14,6 @@ public class Enemy_frog : Enemy
     public float speed,jumpForce;
 
     private bool faceleft = true;
-    // Start is called before the first frame update
     protected override void Start()
     {
         base.Start();//调用父级的start

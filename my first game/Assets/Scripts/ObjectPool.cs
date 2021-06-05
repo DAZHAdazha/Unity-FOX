@@ -18,6 +18,9 @@ public class ObjectPool
             }
             return instance;
         }
+        set{
+            instance = value;
+        }
     }
     public GameObject GetObject(GameObject prefab)
     {
@@ -51,5 +54,11 @@ public class ObjectPool
         // objectPool[_name].Enqueue(prefab);
         objectPool[_name].Push(prefab);
         prefab.SetActive(false);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        if(other.tag=="Weapon"){
+            Debug.Log("here");
+        }
     }
 }

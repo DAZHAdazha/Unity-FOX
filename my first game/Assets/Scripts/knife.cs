@@ -35,6 +35,12 @@ public class knife : MonoBehaviour
             animator.Play("explode");
             soundManager.instance.explodeAudioPlay();
             // ObjectPool.Instance.PushObject(gameObject);//移动到动画结束执行
+ 
+            //调用外部函数 检查Enemy是否死亡
+            other.GetComponent<Enemy>().addHitNum(1);
+            if(other.GetComponent<Enemy>().getHitNum() >= other.GetComponent<Enemy>().getHealth() && other.GetComponent<Collider2D>().enabled){
+                other.GetComponent<Enemy>().death();
+            }
         }
     }
 

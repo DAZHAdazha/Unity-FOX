@@ -157,6 +157,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3b09fd23ec353346a8c6307b72c2cc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 3
+  Collidinginfo:
+    m_PersistentCalls:
+      m_Calls: []
   leftpoint: {fileID: 5503525071340382290}
   rightpoint: {fileID: 5503525071299141890}
   Ground:
