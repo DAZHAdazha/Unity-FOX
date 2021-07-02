@@ -29,6 +29,7 @@ public class playerController : MonoBehaviour
     public int health = 3;
     private int hitNum = 0;
     public GameObject healthSystem;
+    public GameObject[] weaponMode;
 
     // public Joystick joystick;//手机端
     void Start()
@@ -156,7 +157,7 @@ public class playerController : MonoBehaviour
             //关闭所有音源
             GetComponent<AudioSource>().enabled = false;
             // 2s 后执行restart函数
-            Invoke("restart",2f);
+            Invoke("restart",0.2f);
         }
     }
 
@@ -219,21 +220,26 @@ public class playerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 weapons[weaponNum].SetActive(false);
+                weaponMode[weaponNum].SetActive(false);
                 if (--weaponNum < 0)
                 {
                     weaponNum = weapons.Length - 1;
                 }
                 weapons[weaponNum].SetActive(true);
+                weaponMode[weaponNum].SetActive(true);
             }
             if (Input.GetKeyDown(KeyCode.E))
             {
                 weapons[weaponNum].SetActive(false);
+                weaponMode[weaponNum].SetActive(false);
                 if (++weaponNum > weapons.Length - 1)
                 {
                     weaponNum = 0;
                 }
                 weapons[weaponNum].SetActive(true);
+                weaponMode[weaponNum].SetActive(true);
             }
         }
+
 
 }
